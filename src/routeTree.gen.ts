@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as SinistresRouteImport } from './routes/sinistres'
 import { Route as DemoI18nRouteImport } from './routes/demo.i18n'
 import { Route as DemoPrismaRouteImport } from './routes/demo/prisma'
 import { Route as DemoStoreRouteImport } from './routes/demo/store'
@@ -26,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SinistresRoute = SinistresRouteImport.update({
+  id: '/sinistres',
+  path: '/sinistres',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoI18nRoute = DemoI18nRouteImport.update({
@@ -62,6 +68,7 @@ const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/sinistres': typeof SinistresRoute
   '/demo/i18n': typeof DemoI18nRoute
   '/demo/prisma': typeof DemoPrismaRoute
   '/demo/store': typeof DemoStoreRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/sinistres': typeof SinistresRoute
   '/demo/i18n': typeof DemoI18nRoute
   '/demo/prisma': typeof DemoPrismaRoute
   '/demo/store': typeof DemoStoreRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/sinistres': typeof SinistresRoute
   '/demo/i18n': typeof DemoI18nRoute
   '/demo/prisma': typeof DemoPrismaRoute
   '/demo/store': typeof DemoStoreRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/sinistres'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/sinistres'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/sinistres'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  SinistresRoute: typeof SinistresRoute
   DemoI18nRoute: typeof DemoI18nRoute
   DemoPrismaRoute: typeof DemoPrismaRoute
   DemoStoreRoute: typeof DemoStoreRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sinistres': {
+      id: '/sinistres'
+      path: '/sinistres'
+      fullPath: '/sinistres'
+      preLoaderRoute: typeof SinistresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/i18n': {
@@ -198,6 +218,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  SinistresRoute: SinistresRoute,
   DemoI18nRoute: DemoI18nRoute,
   DemoPrismaRoute: DemoPrismaRoute,
   DemoStoreRoute: DemoStoreRoute,
