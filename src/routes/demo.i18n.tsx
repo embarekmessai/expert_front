@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import logo from '../logo.svg'
+import logo from '../../public/prisma.svg'
 import { m } from '#/paraglide/messages'
 import LocaleSwitcher from '../components/LocaleSwitcher'
 
