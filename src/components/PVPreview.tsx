@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { addPV } from '@/api/sinistres'
-import type { Sinitres } from '#/types/Sinitres'
+import type { Sinitres } from '#/types/sinistres'
 
 type PVPreviewProps = {
   data: Pick<Sinitres, 'assure' | 'tiers' | 'sinistre' | 'date_accident' | 'montant_dommage'> & { missing_fields: string[] }

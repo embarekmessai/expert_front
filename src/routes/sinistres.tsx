@@ -11,7 +11,7 @@ import { useToast } from '@/components/ui/use-toast'
 import UploadZone from '@/components/UploadZone.tsx'
 import PVPreview from '@/components/PVPreview.tsx'
 import PVTable from '@/components/PVTable.tsx'
-import type { Sinitres } from '#/types/Sinitres.ts'
+import type { Sinitres } from '#/types/sinistres'
 
 
 const fetchSinistres = createServerFn().handler(
