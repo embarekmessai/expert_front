@@ -1,67 +1,71 @@
 // src/routes/fetch-movies.tsx
 import { createFileRoute } from '@tanstack/react-router'
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { createServerFn } from '@tanstack/react-start'
 import getSinistres from '#/api/sinistres'
 import { FileText, Zap, Shield, Sparkles, BarChart3 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { Toaster } from '@/components/ui/toaster'
 import { useToast } from '@/components/ui/use-toast'
 import UploadZone from '@/components/UploadZone.tsx'
 import PVPreview from '@/components/PVPreview.tsx'
 import PVTable from '@/components/PVTable.tsx'
 import type { Sinitres } from '#/types/sinistres'
 
-
-const fetchSinistres = createServerFn().handler(
-   getSinistres
-)
+const fetchSinistres = createServerFn().handler(getSinistres)
 
 const SinistresPage = () => {
-  const [parsedData, setParsedData] = useState<Sinitres & { missing_fields?: string[] } | null>(null)
+  const [parsedData, setParsedData] = useState<
+    (Sinitres & { missing_fields?: string[] }) | null
+  >(null)
   const [currentFile, setCurrentFile] = useState<File | null>(null)
   const [uploadError, setUploadError] = useState(null)
   const { toast } = useToast()
 
-  const handleParsed = useCallback((data: Sinitres & { missing_fields?: string[] }, file: File) => {
-    setParsedData(data)
-    setCurrentFile(file)
-    setUploadError(null)
-    
-    const missing = data?.missing_fields || []
-    if (missing.length > 0) {
-      toast({
-        title: "Champs à vérifier",
-        description: `${missing.length} champ${missing.length > 1 ? 's' : ''} non détecté${missing.length > 1 ? 's' : ''} automatiquement`,
-        // variant: "warning",
-      })
-    } else {
-      toast({
-        title: "PV analysé",
-        description: "Tous les champs ont été détectés automatiquement",
-        // variant: "success",
-      })
-    }
-  }, [toast])
+  const handleParsed = useCallback(
+    (data: Sinitres & { missing_fields?: string[] }, file: File) => {
+      setParsedData(data)
+      setCurrentFile(file)
+      setUploadError(null)
 
-  const handleError = useCallback((msg :any) => {
-    setUploadError(msg)
-    setParsedData(null)
-    setCurrentFile(null)
-    toast({
-      title: "Erreur",
-      description: msg,
-      // variant: "destructive",
-    })
-  }, [toast])
+      const missing = data?.missing_fields || []
+      if (missing.length > 0) {
+        toast({
+          title: 'Champs à vérifier',
+          description: `${missing.length} champ${missing.length > 1 ? 's' : ''} non détecté${missing.length > 1 ? 's' : ''} automatiquement`,
+          // variant: "warning",
+        })
+      } else {
+        toast({
+          title: 'PV analysé',
+          description: 'Tous les champs ont été détectés automatiquement',
+          // variant: "success",
+        })
+      }
+    },
+    [toast],
+  )
+
+  const handleError = useCallback(
+    (msg: any) => {
+      setUploadError(msg)
+      setParsedData(null)
+      setCurrentFile(null)
+      toast({
+        title: 'Erreur',
+        description: msg,
+        // variant: "destructive",
+      })
+    },
+    [toast],
+  )
 
   const handleSuccess = useCallback(() => {
     setParsedData(null)
     setCurrentFile(null)
     toast({
-      title: "Succès",
-      description: "Le PV a été ajouté au fichier Excel",
+      title: 'Succès',
+      description: 'Le PV a été ajouté au fichier Excel',
       // variant: "success",
     })
   }, [toast])
@@ -74,8 +78,6 @@ const SinistresPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Toaster />
-      
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -92,7 +94,7 @@ const SinistresPage = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="hidden md:flex items-center gap-4">
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
               <Zap className="h-3 w-3 text-primary" />
@@ -122,8 +124,9 @@ const SinistresPage = () => {
             Déposez un PV, tout le reste est automatique
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Le système extrait automatiquement les données du PDF (assuré, sinistre, date, montant)
-            et les ajoute au fichier Excel récapitulatif avec mise à jour des totaux.
+            Le système extrait automatiquement les données du PDF (assuré,
+            sinistre, date, montant) et les ajoute au fichier Excel
+            récapitulatif avec mise à jour des totaux.
           </p>
         </div>
 
@@ -148,8 +151,8 @@ const SinistresPage = () => {
                   Aperçu du PV
                 </p>
                 <p className="text-xs text-muted-foreground max-w-xs">
-                  Déposez un PDF à gauche pour voir les données extraites
-                  et les ajouter au fichier Excel
+                  Déposez un PDF à gauche pour voir les données extraites et les
+                  ajouter au fichier Excel
                 </p>
                 {uploadError && (
                   <div className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive max-w-xs">
@@ -171,7 +174,9 @@ const SinistresPage = () => {
       <footer className="border-t border-border/50 mt-12">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between text-xs text-muted-foreground">
           <p>PV Excel Automation — Développé pour Messai Nour El Dinne</p>
-          <p className="hidden sm:block">React 19 • shadcn/ui • Tailwind CSS • FastAPI</p>
+          <p className="hidden sm:block">
+            React 19 • shadcn/ui • Tailwind CSS • FastAPI
+          </p>
         </div>
       </footer>
     </div>
@@ -180,7 +185,10 @@ const SinistresPage = () => {
 
 export const Route = createFileRoute('/(app)/_app/sinistres')({
   component: SinistresPage,
-  loader: async (): Promise<{ sinistres: Sinitres[]; error: string | null }> => {
+  loader: async (): Promise<{
+    sinistres: Sinitres[]
+    error: string | null
+  }> => {
     try {
       const sinistresData = await fetchSinistres()
       return { sinistres: sinistresData.results, error: null }
@@ -189,4 +197,4 @@ export const Route = createFileRoute('/(app)/_app/sinistres')({
       return { sinistres: [], error: 'Failed to load sinistres' }
     }
   },
-})  
+})
