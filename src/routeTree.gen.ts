@@ -10,10 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as appAppRouteImport } from './routes/(app)/_app'
-import { Route as appSinistresRouteImport } from './routes/(app)/sinistres'
 import { Route as webWebRouteImport } from './routes/(web)/_web'
 import { Route as webAboutRouteImport } from './routes/(web)/about'
 import { Route as appAppDashboardRouteImport } from './routes/(app)/_app.dashboard'
+import { Route as appAppSinistresRouteImport } from './routes/(app)/_app.sinistres'
 import { Route as webWebIndexRouteImport } from './routes/(web)/_web.index'
 import { Route as webDemoI18nRouteImport } from './routes/(web)/demo.i18n'
 import { Route as webDemoPrismaRouteImport } from './routes/(web)/demo/prisma'
@@ -24,11 +24,6 @@ import { Route as webDemoFormSimpleRouteImport } from './routes/(web)/demo/form.
 
 const appAppRoute = appAppRouteImport.update({
   id: '/(app)/_app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const appSinistresRoute = appSinistresRouteImport.update({
-  id: '/(app)/sinistres',
-  path: '/sinistres',
   getParentRoute: () => rootRouteImport,
 } as any)
 const webWebRoute = webWebRouteImport.update({
@@ -43,6 +38,11 @@ const webAboutRoute = webAboutRouteImport.update({
 const appAppDashboardRoute = appAppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => appAppRoute,
+} as any)
+const appAppSinistresRoute = appAppSinistresRouteImport.update({
+  id: '/sinistres',
+  path: '/sinistres',
   getParentRoute: () => appAppRoute,
 } as any)
 const webWebIndexRoute = webWebIndexRouteImport.update({
@@ -82,9 +82,9 @@ const webDemoFormSimpleRoute = webDemoFormSimpleRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/sinistres': typeof appSinistresRoute
   '/about': typeof webAboutRoute
   '/dashboard': typeof appAppDashboardRoute
+  '/sinistres': typeof appAppSinistresRoute
   '/demo/i18n': typeof webDemoI18nRoute
   '/demo/prisma': typeof webDemoPrismaRoute
   '/demo/store': typeof webDemoStoreRoute
@@ -94,9 +94,9 @@ export interface FileRoutesByFullPath {
   '/demo/form/simple': typeof webDemoFormSimpleRoute
 }
 export interface FileRoutesByTo {
-  '/sinistres': typeof appSinistresRoute
   '/about': typeof webAboutRoute
   '/dashboard': typeof appAppDashboardRoute
+  '/sinistres': typeof appAppSinistresRoute
   '/demo/i18n': typeof webDemoI18nRoute
   '/demo/prisma': typeof webDemoPrismaRoute
   '/demo/store': typeof webDemoStoreRoute
@@ -108,10 +108,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)/_app': typeof appAppRouteWithChildren
-  '/(app)/sinistres': typeof appSinistresRoute
   '/(web)/_web': typeof webWebRouteWithChildren
   '/(web)/about': typeof webAboutRoute
   '/(app)/_app/dashboard': typeof appAppDashboardRoute
+  '/(app)/_app/sinistres': typeof appAppSinistresRoute
   '/(web)/demo/i18n': typeof webDemoI18nRoute
   '/(web)/demo/prisma': typeof webDemoPrismaRoute
   '/(web)/demo/store': typeof webDemoStoreRoute
@@ -123,9 +123,9 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/sinistres'
     | '/about'
     | '/dashboard'
+    | '/sinistres'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
@@ -135,9 +135,9 @@ export interface FileRouteTypes {
     | '/demo/form/simple'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/sinistres'
     | '/about'
     | '/dashboard'
+    | '/sinistres'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
@@ -148,10 +148,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(app)/_app'
-    | '/(app)/sinistres'
     | '/(web)/_web'
     | '/(web)/about'
     | '/(app)/_app/dashboard'
+    | '/(app)/_app/sinistres'
     | '/(web)/demo/i18n'
     | '/(web)/demo/prisma'
     | '/(web)/demo/store'
@@ -163,7 +163,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   appAppRoute: typeof appAppRouteWithChildren
-  appSinistresRoute: typeof appSinistresRoute
   webWebRoute: typeof webWebRouteWithChildren
   webAboutRoute: typeof webAboutRoute
   webDemoI18nRoute: typeof webDemoI18nRoute
@@ -181,13 +180,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof appAppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(app)/sinistres': {
-      id: '/(app)/sinistres'
-      path: '/sinistres'
-      fullPath: '/sinistres'
-      preLoaderRoute: typeof appSinistresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(web)/_web': {
@@ -209,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof appAppDashboardRouteImport
+      parentRoute: typeof appAppRoute
+    }
+    '/(app)/_app/sinistres': {
+      id: '/(app)/_app/sinistres'
+      path: '/sinistres'
+      fullPath: '/sinistres'
+      preLoaderRoute: typeof appAppSinistresRouteImport
       parentRoute: typeof appAppRoute
     }
     '/(web)/_web/': {
@@ -265,10 +264,12 @@ declare module '@tanstack/react-router' {
 
 interface appAppRouteChildren {
   appAppDashboardRoute: typeof appAppDashboardRoute
+  appAppSinistresRoute: typeof appAppSinistresRoute
 }
 
 const appAppRouteChildren: appAppRouteChildren = {
   appAppDashboardRoute: appAppDashboardRoute,
+  appAppSinistresRoute: appAppSinistresRoute,
 }
 
 const appAppRouteWithChildren =
@@ -287,7 +288,6 @@ const webWebRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   appAppRoute: appAppRouteWithChildren,
-  appSinistresRoute: appSinistresRoute,
   webWebRoute: webWebRouteWithChildren,
   webAboutRoute: webAboutRoute,
   webDemoI18nRoute: webDemoI18nRoute,

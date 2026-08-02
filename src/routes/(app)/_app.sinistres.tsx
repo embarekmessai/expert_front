@@ -19,12 +19,12 @@ const fetchSinistres = createServerFn().handler(
 )
 
 const SinistresPage = () => {
-  const [parsedData, setParsedData] = useState(null)
-  const [currentFile, setCurrentFile] = useState(null)
+  const [parsedData, setParsedData] = useState<Sinitres & { missing_fields?: string[] } | null>(null)
+  const [currentFile, setCurrentFile] = useState<File | null>(null)
   const [uploadError, setUploadError] = useState(null)
   const { toast } = useToast()
 
-  const handleParsed = useCallback((data, file) => {
+  const handleParsed = useCallback((data: Sinitres & { missing_fields?: string[] }, file: File) => {
     setParsedData(data)
     setCurrentFile(file)
     setUploadError(null)
@@ -34,25 +34,25 @@ const SinistresPage = () => {
       toast({
         title: "Champs à vérifier",
         description: `${missing.length} champ${missing.length > 1 ? 's' : ''} non détecté${missing.length > 1 ? 's' : ''} automatiquement`,
-        variant: "warning",
+        // variant: "warning",
       })
     } else {
       toast({
         title: "PV analysé",
         description: "Tous les champs ont été détectés automatiquement",
-        variant: "success",
+        // variant: "success",
       })
     }
   }, [toast])
 
-  const handleError = useCallback((msg) => {
+  const handleError = useCallback((msg :any) => {
     setUploadError(msg)
     setParsedData(null)
     setCurrentFile(null)
     toast({
       title: "Erreur",
       description: msg,
-      variant: "destructive",
+      // variant: "destructive",
     })
   }, [toast])
 
@@ -62,7 +62,7 @@ const SinistresPage = () => {
     toast({
       title: "Succès",
       description: "Le PV a été ajouté au fichier Excel",
-      variant: "success",
+      // variant: "success",
     })
   }, [toast])
 
@@ -178,7 +178,7 @@ const SinistresPage = () => {
   )
 }
 
-export const Route = createFileRoute('/(app)/sinistres')({
+export const Route = createFileRoute('/(app)/_app/sinistres')({
   component: SinistresPage,
   loader: async (): Promise<{ sinistres: Sinitres[]; error: string | null }> => {
     try {

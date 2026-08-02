@@ -15,7 +15,7 @@ import {
 
 import type { NavItem } from '@/types';
 import { Link } from '@tanstack/react-router';
-import { LayoutGrid, UsersIcon } from 'lucide-react';
+import { FileTextIcon, LayoutGrid, UsersIcon } from 'lucide-react';
 
 
 export function AppSidebar() {
@@ -28,9 +28,9 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         {
-            title: 'Users',
-            href: '/users',
-            icon: UsersIcon,
+            title: 'Sinistres',
+            href: '/sinistres',
+            icon: FileTextIcon,
         },
     ];
 
