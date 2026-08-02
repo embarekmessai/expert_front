@@ -1,8 +1,7 @@
-import { SharedData } from '@/types/global';
-import { usePage } from '@inertiajs/react';
+import type { SharedData } from "#/types/global";
 
 export function useLang() {
-   const { props } = usePage<SharedData>();
+   const { props } = window as unknown as { props: SharedData };
 
    return props.translate;
 }
