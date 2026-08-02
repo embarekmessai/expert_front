@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/react';
 import { Fragment } from 'react';
 import {
     Breadcrumb,
@@ -9,6 +8,7 @@ import {
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
+import { Link } from '@tanstack/react-router';
 
 export function Breadcrumbs({
     breadcrumbs,
@@ -32,7 +32,7 @@ export function Breadcrumbs({
                                             </BreadcrumbPage>
                                         ) : (
                                             <BreadcrumbLink asChild>
-                                                <Link href={item.href}>
+                                                <Link to={item.href}>
                                                     {item.title}
                                                 </Link>
                                             </BreadcrumbLink>
