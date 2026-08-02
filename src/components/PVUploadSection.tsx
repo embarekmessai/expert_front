@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { FileText } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Toaster } from '@/components/ui/toaster'
 import { useToast } from '@/components/ui/use-toast'
 import UploadZone from '@/components/UploadZone'
 import PVPreview from '@/components/PVPreview'
@@ -23,11 +22,13 @@ export default function PVUploadSection() {
         toast({
           title: 'Champs à vérifier',
           description: `${missing.length} champ${missing.length > 1 ? 's' : ''} non détecté${missing.length > 1 ? 's' : ''} automatiquement`,
+          variant: 'warning',
         })
       } else {
         toast({
           title: 'PV analysé',
           description: 'Tous les champs ont été détectés automatiquement',
+          variant: 'success',
         })
       }
     },
@@ -42,6 +43,7 @@ export default function PVUploadSection() {
       toast({
         title: 'Erreur',
         description: msg,
+        variant: 'error',
       })
     },
     [toast],
@@ -53,6 +55,7 @@ export default function PVUploadSection() {
     toast({
       title: 'Succès',
       description: 'Le PV a été ajouté au fichier Excel',
+      variant: 'success',
     })
   }, [toast])
 
@@ -64,7 +67,6 @@ export default function PVUploadSection() {
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <Toaster />
       <UploadZone onParsed={handleParsed} onError={handleError} />
 
       {parsedData && currentFile ? (

@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Toaster } from '@/components/ui/toaster'
 import { useToast } from '@/components/ui/use-toast'
 import { uploadPVs } from '@/api/sinistres'
 import { cn } from '@/lib/utils'
@@ -53,6 +52,7 @@ export default function PVsUploadZone() {
       toast({
         title: 'PVs importés',
         description: `${files.length} fichier${files.length > 1 ? 's' : ''} traité${files.length > 1 ? 's' : ''} — sinistres créés`,
+        variant: 'success',
       })
       setFiles([])
       await router.invalidate()
@@ -61,6 +61,7 @@ export default function PVsUploadZone() {
         title: 'Erreur',
         description:
           err instanceof Error ? err.message : "Échec de l'envoi des PVs",
+        variant: 'error',
       })
     } finally {
       setIsUploading(false)
@@ -69,7 +70,6 @@ export default function PVsUploadZone() {
 
   return (
     <Card>
-      <Toaster />
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
