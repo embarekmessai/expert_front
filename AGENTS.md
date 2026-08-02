@@ -1,3 +1,79 @@
+# expert-front
+
+## Project overview
+
+Frontend application for managing/inspecting "sinistres" (insurance claim records, parsed from PV documents), built with **TanStack Start** (React 19, SSR-capable) and **Vite 8**. It consumes a separate backend API running on `http://localhost:8000` (e.g. a FastAPI service): the dev server proxies `/api/*` to it (stripping the `/api` prefix), and `src/api/sinistres.ts` calls it directly via `VITE_API_URL`.
+
+Created with the TanStack CLI (see `.cta.json`) with add-ons: eslint, prisma, form, paraglide, shadcn, table, store.
+
+## Tech stack
+
+- **Framework**: TanStack Start + TanStack Router (file-based routing), React 19, TypeScript (strict)
+- **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`), shadcn/ui components (style `new-york`, base color `zinc`, lucide icons) in `src/components/ui`
+- **Data fetching**: `@tanstack/react-table`, `@tanstack/react-form`, `@tanstack/react-store` (installed; demo usage under `src/routes/demo` and `src/lib/demo-store.ts`)
+- **i18n**: Paraglide JS (inlang). Messages in `messages/{locale}.json` (locales: `en` base, `de`); generated code in `src/paraglide` (do not edit, regenerated on dev/build). Locale via URL strategy + router hooks in `src/routes/__root.tsx`
+- **Database**: Prisma 7 + SQLite via `@prisma/adapter-better-sqlite3`. Schema in `prisma/schema.prisma` (single `Todo` demo model), generated client output to `src/generated/prisma`, client singleton in `src/db.ts`. Currently only used by demo routes
+- **Validation**: zod
+
+## Build and dev commands
+
+Package manager is **pnpm**.
+
+```bash
+pnpm install
+pnpm dev            # vite dev on port 3000
+pnpm build          # production build
+pnpm preview
+pnpm lint           # eslint
+pnpm format         # prettier --write + eslint --fix
+pnpm check          # prettier --check
+pnpm generate-routes # regenerate routeTree.gen.ts (usually automatic via vite plugin)
+```
+
+Database (all load `.env.local` via dotenv-cli):
+
+```bash
+pnpm db:generate
+pnpm db:push
+pnpm db:migrate
+pnpm db:studio
+pnpm db:seed        # runs tsx prisma/seed.ts
+```
+
+Environment: `.env.local` must define `DATABASE_URL` (SQLite file). Client code uses `VITE_API_URL` (defaults to `http://localhost:8000`) and `API_AUTH_TOKEN` for the backend API.
+
+## Code organization
+
+- `src/routes/` — file-based routes. Route groups: `(web)` (public marketing/demo pages, layout `_web.tsx`) and `(app)` (authenticated app shell, layout `_app.tsx`, e.g. `_app.dashboard.tsx`, `sinistres.tsx`). Root layout in `__root.tsx`. `routeTree.gen.ts` is generated — never edit by hand.
+- `src/api/` — backend API client functions (e.g. `sinistres.ts`: fetch sinistres, parse/add PV files).
+- `src/components/` — shared components: `ui/` (shadcn), layout/shell (`AppShell.tsx`, `Header.tsx`, `Footer.tsx`, `app-sidebar.tsx`, nav-*), domain components (`PVTable.tsx`, `PVPreview.tsx`, `UploadZone.tsx`).
+- `src/hooks/` — React hooks (`use-appearance`, `use-mobile`, `use-route`, `use-flash-toast`, …).
+- `src/lib/` — utilities (`utils.ts` with `cn`, `route.ts`, demo store).
+- `src/types/` — shared TypeScript types (`sinistres.ts`, `auth.ts`, `navigation.ts`, …).
+- `src/paraglide/`, `src/generated/prisma/`, `messages/`, `project.inlang/` — i18n generated code and messages.
+- `prisma/` — schema and seed.
+
+Import aliases: `#/*` and `@/*` both map to `src/*` (configured in tsconfig + package.json `imports`); shadcn aliases (`#/components`, `#/lib/utils`, …) in `components.json`.
+
+## Conventions and code style
+
+- Prettier: no semicolons, single quotes, trailing commas. ESLint via `@tanstack/eslint-config` (several import/order rules disabled in `eslint.config.js`).
+- TypeScript strict, `noUnusedLocals`/`noUnusedParameters` on; bundler module resolution.
+- Add UI components with `pnpm dlx shadcn@latest add <component>` (see `.cursorrules`).
+- New route = new file in `src/routes`; TanStack generates the route file boilerplate and the route tree automatically.
+- Files/routes prefixed with `demo` are starter examples and can be deleted safely.
+- Server-side code uses TanStack Start `createServerFn` or route `server.handlers`; Prisma client is imported from `src/db.ts`.
+
+## Testing
+
+No test framework is currently configured (no test runner, no test files). Verify changes with `pnpm lint`, `pnpm check`, `pnpm build`, and manual testing via `pnpm dev`.
+
+## Security considerations
+
+- Never commit `.env.local` (contains `DATABASE_URL` and potentially `API_AUTH_TOKEN`). Only `VITE_`-prefixed variables are exposed to client code.
+- The backend API token (`API_AUTH_TOKEN`) is used in `src/api/sinistres.ts` — keep such calls on the server side if the token must stay secret from the browser.
+- Dev proxy forwards `/api` to `localhost:8000` with `changeOrigin`; this is a development-only convenience.
+
 <!-- intent-skills:start -->
 # TanStack Intent - before editing files, run the matching guidance command.
 tanstackIntent:
