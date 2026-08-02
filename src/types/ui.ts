@@ -3,7 +3,7 @@ import type { BreadcrumbItem } from './navigation';
 
 
 export type AppLayoutProps = {
-    children: ReactNode;
+    children?: ReactNode;
     breadcrumbs?: BreadcrumbItem[];
 };
 
