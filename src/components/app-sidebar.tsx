@@ -12,18 +12,27 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+
 import type { NavItem } from '@/types';
+import { Link } from '@tanstack/react-router';
+import { LayoutGrid, UsersIcon } from 'lucide-react';
+
 
 export function AppSidebar() {
-    const page = usePage();
-    const dashboardUrl = page.props.currentTeam
-        ? dashboard(page.props.currentTeam.slug)
-        : '/';
+    const dashboardUrl = '/';
 
-    const mainNavItems: NavItem[] = page.props.menuItems
-
-    console.log('page.props.menuItems', );
+    const mainNavItems: NavItem[] = [
+        {
+            title: 'Dashboard',
+            href: '/',
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Users',
+            href: '/users',
+            icon: UsersIcon,
+        },
+    ];
 
     const footerNavItems: NavItem[] = [
         // {
@@ -39,7 +48,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboardUrl} prefetch>
+                            <Link to={dashboardUrl}>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -47,7 +56,7 @@ export function AppSidebar() {
                 </SidebarMenu>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <TeamSwitcher />
+                        
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
