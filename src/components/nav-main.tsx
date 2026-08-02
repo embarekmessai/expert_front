@@ -1,4 +1,3 @@
-import { Link, usePage } from '@inertiajs/react';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -8,25 +7,26 @@ import {
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import type { NavItem } from '@/types';
-import { DynamicIcon } from 'lucide-react/dynamic';
+// import { DynamicIcon } from 'lucide-react/dynamic';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { Dot } from 'lucide-react';
-import { routeLastSegment, routeSecondSegment } from '@/lib/route';
 import { cn } from '@/lib/utils';
+import { routeLastSegment, routeSecondSegment } from '#/lib/route';
+import { Link } from '@tanstack/react-router';
 
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
-    const page = usePage();
-    const { direction } = page.props;
+    // const page = { url: window.location.href };
+    const { direction } = { direction: 'ltr' };
     const { isCurrentUrl } = useCurrentUrl();
 
-    const activeAccordion = (slug: string) => {
-        return routeSecondSegment(page.url) === slug;
-    };
+    // const activeAccordion = (slug: string) => {
+    //     return routeSecondSegment(page.url) === slug;
+    // };
 
-    const activeRoute = (slug: string) => {
-        return routeLastSegment(page.url) === slug;
-    };
+    // const activeRoute = (slug: string) => {
+    //     return routeLastSegment(page.url) === slug;
+    // };
 
     return (
         <SidebarGroup className="px-2 py-0">
@@ -58,9 +58,9 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                             asChild
                                             className="h-9"
                                         >
-                                             <Link href="#" prefetch className="flex gap-2 items-center">
-                                                {item.icon &&
-                                                <DynamicIcon name={item.icon} size="16" />}
+                                             <Link to="/" className="flex gap-2 items-center">
+                                                {/* {item.icon &&
+                                                <DynamicIcon name="camera" size="16" />} */}
                                                 <span className="text-sm font-normal capitalize">{item.title}</span>
                                             </Link>
                                         </SidebarMenuButton>
@@ -70,7 +70,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                             const { title: name, href: path } = child;
                                             return (
                                                 <SidebarMenuButton asChild key={index} isActive={isCurrentUrl(path)} className="h-9 px-3">
-                                                    <Link href={path} prefetch>
+                                                    <Link to={path}>
                                                         <Dot className="w-12" />
                                                         <span className="text-sm font-normal capitalize">{name}</span>
                                                     </Link>
@@ -88,9 +88,9 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                     tooltip={{ children: item.title }}
                                 >
 
-                                    <Link href={item.href} prefetch className="flex gap-2 items-center">
-                                        {item.icon &&
-                                        <DynamicIcon name={item.icon} size="16" />}
+                                    <Link to={item.href} className="flex gap-2 items-center">
+                                        {/* {item.icon &&
+                                        <DynamicIcon name="camera" size="16" />} */}
                                         <span className="text-sm font-normal capitalize">{item.title}</span>
                                     </Link>
                                 </SidebarMenuButton>
