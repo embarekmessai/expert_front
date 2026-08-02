@@ -9,222 +9,293 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as SinistresRouteImport } from './routes/sinistres'
-import { Route as DemoI18nRouteImport } from './routes/demo.i18n'
-import { Route as DemoPrismaRouteImport } from './routes/demo/prisma'
-import { Route as DemoStoreRouteImport } from './routes/demo/store'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
-import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
-import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
+import { Route as appAppRouteImport } from './routes/(app)/_app'
+import { Route as appSinistresRouteImport } from './routes/(app)/sinistres'
+import { Route as webWebRouteImport } from './routes/(web)/_web'
+import { Route as webAboutRouteImport } from './routes/(web)/about'
+import { Route as appAppDashboardRouteImport } from './routes/(app)/_app.dashboard'
+import { Route as webWebIndexRouteImport } from './routes/(web)/_web.index'
+import { Route as webDemoI18nRouteImport } from './routes/(web)/demo.i18n'
+import { Route as webDemoPrismaRouteImport } from './routes/(web)/demo/prisma'
+import { Route as webDemoStoreRouteImport } from './routes/(web)/demo/store'
+import { Route as webDemoTableRouteImport } from './routes/(web)/demo/table'
+import { Route as webDemoFormAddressRouteImport } from './routes/(web)/demo/form.address'
+import { Route as webDemoFormSimpleRouteImport } from './routes/(web)/demo/form.simple'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const appAppRoute = appAppRouteImport.update({
+  id: '/(app)/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SinistresRoute = SinistresRouteImport.update({
-  id: '/sinistres',
+const appSinistresRoute = appSinistresRouteImport.update({
+  id: '/(app)/sinistres',
   path: '/sinistres',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoI18nRoute = DemoI18nRouteImport.update({
-  id: '/demo/i18n',
+const webWebRoute = webWebRouteImport.update({
+  id: '/(web)/_web',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const webAboutRoute = webAboutRouteImport.update({
+  id: '/(web)/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const appAppDashboardRoute = appAppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => appAppRoute,
+} as any)
+const webWebIndexRoute = webWebIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => webWebRoute,
+} as any)
+const webDemoI18nRoute = webDemoI18nRouteImport.update({
+  id: '/(web)/demo/i18n',
   path: '/demo/i18n',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoPrismaRoute = DemoPrismaRouteImport.update({
-  id: '/demo/prisma',
+const webDemoPrismaRoute = webDemoPrismaRouteImport.update({
+  id: '/(web)/demo/prisma',
   path: '/demo/prisma',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStoreRoute = DemoStoreRouteImport.update({
-  id: '/demo/store',
+const webDemoStoreRoute = webDemoStoreRouteImport.update({
+  id: '/(web)/demo/store',
   path: '/demo/store',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
+const webDemoTableRoute = webDemoTableRouteImport.update({
+  id: '/(web)/demo/table',
   path: '/demo/table',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
-  id: '/demo/form/address',
+const webDemoFormAddressRoute = webDemoFormAddressRouteImport.update({
+  id: '/(web)/demo/form/address',
   path: '/demo/form/address',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
-  id: '/demo/form/simple',
+const webDemoFormSimpleRoute = webDemoFormSimpleRouteImport.update({
+  id: '/(web)/demo/form/simple',
   path: '/demo/form/simple',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/sinistres': typeof SinistresRoute
-  '/demo/i18n': typeof DemoI18nRoute
-  '/demo/prisma': typeof DemoPrismaRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
+  '/sinistres': typeof appSinistresRoute
+  '/about': typeof webAboutRoute
+  '/dashboard': typeof appAppDashboardRoute
+  '/demo/i18n': typeof webDemoI18nRoute
+  '/demo/prisma': typeof webDemoPrismaRoute
+  '/demo/store': typeof webDemoStoreRoute
+  '/demo/table': typeof webDemoTableRoute
+  '/': typeof webWebIndexRoute
+  '/demo/form/address': typeof webDemoFormAddressRoute
+  '/demo/form/simple': typeof webDemoFormSimpleRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/sinistres': typeof SinistresRoute
-  '/demo/i18n': typeof DemoI18nRoute
-  '/demo/prisma': typeof DemoPrismaRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
+  '/sinistres': typeof appSinistresRoute
+  '/about': typeof webAboutRoute
+  '/dashboard': typeof appAppDashboardRoute
+  '/demo/i18n': typeof webDemoI18nRoute
+  '/demo/prisma': typeof webDemoPrismaRoute
+  '/demo/store': typeof webDemoStoreRoute
+  '/demo/table': typeof webDemoTableRoute
+  '/': typeof webWebIndexRoute
+  '/demo/form/address': typeof webDemoFormAddressRoute
+  '/demo/form/simple': typeof webDemoFormSimpleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/sinistres': typeof SinistresRoute
-  '/demo/i18n': typeof DemoI18nRoute
-  '/demo/prisma': typeof DemoPrismaRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
+  '/(app)/_app': typeof appAppRouteWithChildren
+  '/(app)/sinistres': typeof appSinistresRoute
+  '/(web)/_web': typeof webWebRouteWithChildren
+  '/(web)/about': typeof webAboutRoute
+  '/(app)/_app/dashboard': typeof appAppDashboardRoute
+  '/(web)/demo/i18n': typeof webDemoI18nRoute
+  '/(web)/demo/prisma': typeof webDemoPrismaRoute
+  '/(web)/demo/store': typeof webDemoStoreRoute
+  '/(web)/demo/table': typeof webDemoTableRoute
+  '/(web)/_web/': typeof webWebIndexRoute
+  '/(web)/demo/form/address': typeof webDemoFormAddressRoute
+  '/(web)/demo/form/simple': typeof webDemoFormSimpleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/about'
     | '/sinistres'
+    | '/about'
+    | '/dashboard'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
     | '/demo/table'
+    | '/'
     | '/demo/form/address'
     | '/demo/form/simple'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/about'
     | '/sinistres'
+    | '/about'
+    | '/dashboard'
     | '/demo/i18n'
     | '/demo/prisma'
     | '/demo/store'
     | '/demo/table'
+    | '/'
     | '/demo/form/address'
     | '/demo/form/simple'
   id:
     | '__root__'
-    | '/'
-    | '/about'
-    | '/sinistres'
-    | '/demo/i18n'
-    | '/demo/prisma'
-    | '/demo/store'
-    | '/demo/table'
-    | '/demo/form/address'
-    | '/demo/form/simple'
+    | '/(app)/_app'
+    | '/(app)/sinistres'
+    | '/(web)/_web'
+    | '/(web)/about'
+    | '/(app)/_app/dashboard'
+    | '/(web)/demo/i18n'
+    | '/(web)/demo/prisma'
+    | '/(web)/demo/store'
+    | '/(web)/demo/table'
+    | '/(web)/_web/'
+    | '/(web)/demo/form/address'
+    | '/(web)/demo/form/simple'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  SinistresRoute: typeof SinistresRoute
-  DemoI18nRoute: typeof DemoI18nRoute
-  DemoPrismaRoute: typeof DemoPrismaRoute
-  DemoStoreRoute: typeof DemoStoreRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoFormAddressRoute: typeof DemoFormAddressRoute
-  DemoFormSimpleRoute: typeof DemoFormSimpleRoute
+  appAppRoute: typeof appAppRouteWithChildren
+  appSinistresRoute: typeof appSinistresRoute
+  webWebRoute: typeof webWebRouteWithChildren
+  webAboutRoute: typeof webAboutRoute
+  webDemoI18nRoute: typeof webDemoI18nRoute
+  webDemoPrismaRoute: typeof webDemoPrismaRoute
+  webDemoStoreRoute: typeof webDemoStoreRoute
+  webDemoTableRoute: typeof webDemoTableRoute
+  webDemoFormAddressRoute: typeof webDemoFormAddressRoute
+  webDemoFormSimpleRoute: typeof webDemoFormSimpleRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/(app)/_app': {
+      id: '/(app)/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof appAppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sinistres': {
-      id: '/sinistres'
+    '/(app)/sinistres': {
+      id: '/(app)/sinistres'
       path: '/sinistres'
       fullPath: '/sinistres'
-      preLoaderRoute: typeof SinistresRouteImport
+      preLoaderRoute: typeof appSinistresRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/i18n': {
-      id: '/demo/i18n'
+    '/(web)/_web': {
+      id: '/(web)/_web'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof webWebRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(web)/about': {
+      id: '/(web)/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof webAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(app)/_app/dashboard': {
+      id: '/(app)/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof appAppDashboardRouteImport
+      parentRoute: typeof appAppRoute
+    }
+    '/(web)/_web/': {
+      id: '/(web)/_web/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof webWebIndexRouteImport
+      parentRoute: typeof webWebRoute
+    }
+    '/(web)/demo/i18n': {
+      id: '/(web)/demo/i18n'
       path: '/demo/i18n'
       fullPath: '/demo/i18n'
-      preLoaderRoute: typeof DemoI18nRouteImport
+      preLoaderRoute: typeof webDemoI18nRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/prisma': {
-      id: '/demo/prisma'
+    '/(web)/demo/prisma': {
+      id: '/(web)/demo/prisma'
       path: '/demo/prisma'
       fullPath: '/demo/prisma'
-      preLoaderRoute: typeof DemoPrismaRouteImport
+      preLoaderRoute: typeof webDemoPrismaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/store': {
-      id: '/demo/store'
+    '/(web)/demo/store': {
+      id: '/(web)/demo/store'
       path: '/demo/store'
       fullPath: '/demo/store'
-      preLoaderRoute: typeof DemoStoreRouteImport
+      preLoaderRoute: typeof webDemoStoreRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/table': {
-      id: '/demo/table'
+    '/(web)/demo/table': {
+      id: '/(web)/demo/table'
       path: '/demo/table'
       fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
+      preLoaderRoute: typeof webDemoTableRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/address': {
-      id: '/demo/form/address'
+    '/(web)/demo/form/address': {
+      id: '/(web)/demo/form/address'
       path: '/demo/form/address'
       fullPath: '/demo/form/address'
-      preLoaderRoute: typeof DemoFormAddressRouteImport
+      preLoaderRoute: typeof webDemoFormAddressRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/simple': {
-      id: '/demo/form/simple'
+    '/(web)/demo/form/simple': {
+      id: '/(web)/demo/form/simple'
       path: '/demo/form/simple'
       fullPath: '/demo/form/simple'
-      preLoaderRoute: typeof DemoFormSimpleRouteImport
+      preLoaderRoute: typeof webDemoFormSimpleRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface appAppRouteChildren {
+  appAppDashboardRoute: typeof appAppDashboardRoute
+}
+
+const appAppRouteChildren: appAppRouteChildren = {
+  appAppDashboardRoute: appAppDashboardRoute,
+}
+
+const appAppRouteWithChildren =
+  appAppRoute._addFileChildren(appAppRouteChildren)
+
+interface webWebRouteChildren {
+  webWebIndexRoute: typeof webWebIndexRoute
+}
+
+const webWebRouteChildren: webWebRouteChildren = {
+  webWebIndexRoute: webWebIndexRoute,
+}
+
+const webWebRouteWithChildren =
+  webWebRoute._addFileChildren(webWebRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  SinistresRoute: SinistresRoute,
-  DemoI18nRoute: DemoI18nRoute,
-  DemoPrismaRoute: DemoPrismaRoute,
-  DemoStoreRoute: DemoStoreRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoFormAddressRoute: DemoFormAddressRoute,
-  DemoFormSimpleRoute: DemoFormSimpleRoute,
+  appAppRoute: appAppRouteWithChildren,
+  appSinistresRoute: appSinistresRoute,
+  webWebRoute: webWebRouteWithChildren,
+  webAboutRoute: webAboutRoute,
+  webDemoI18nRoute: webDemoI18nRoute,
+  webDemoPrismaRoute: webDemoPrismaRoute,
+  webDemoStoreRoute: webDemoStoreRoute,
+  webDemoTableRoute: webDemoTableRoute,
+  webDemoFormAddressRoute: webDemoFormAddressRoute,
+  webDemoFormSimpleRoute: webDemoFormSimpleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
