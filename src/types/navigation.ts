@@ -1,5 +1,11 @@
 import type { LucideIcon } from 'lucide-react';
 
+declare module '@tanstack/react-router' {
+    interface StaticDataRouteOption {
+        breadcrumb?: BreadcrumbItem;
+    }
+}
+
 export type BreadcrumbItem = {
     title: string;
     href: string;

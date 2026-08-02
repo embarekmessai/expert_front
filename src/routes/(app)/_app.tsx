@@ -1,42 +1,30 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet, useMatches } from '@tanstack/react-router'
+import type { BreadcrumbItem } from '@/types';
+import { AppContent } from '@/components/app-content';
+import { AppShell } from '@/components/AppShell';
+import { AppSidebar } from '@/components/app-sidebar';
+import { AppSidebarHeader } from '#/components/app-sidebar-header';
 
 export const Route = createFileRoute('/(app)/_app')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const matches = useMatches()
+  const breadcrumbs: BreadcrumbItem[] = matches
+    .map((match) => match.staticData?.breadcrumb)
+    .filter((breadcrumb) => breadcrumb != null)
+    
   return (
     <main>
         <AppShell variant="sidebar">
             <AppSidebar />
             <AppContent variant="sidebar" className="overflow-x-hidden">
-                {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
+                <AppSidebarHeader breadcrumbs={breadcrumbs} />
 
                 <Outlet />
             </AppContent>
         </AppShell>
     </main>
   )
-}
-
-import { AppContent } from '@/components/app-content';
-import { AppShell } from '@/components/AppShell';
-import { AppSidebar } from '@/components/app-sidebar';
-import type { AppLayoutProps } from '@/types';
-
-export default function AdminLayout({
-    children,
-    breadcrumbs = [],
-}: AppLayoutProps) {
-    return (
-        <main>
-            <AppShell variant="sidebar">
-                <AppSidebar />
-                <AppContent variant="sidebar" className="overflow-x-hidden">
-                    {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
-                    {children}
-                </AppContent>
-            </AppShell>
-        </main>
-    );
 }
