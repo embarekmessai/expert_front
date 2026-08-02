@@ -10,8 +10,8 @@ import { addPV } from '@/api/sinistres'
 import type { Sinitres } from '#/types/sinistres'
 
 type PVPreviewProps = {
-  data: Pick<Sinitres, 'assure' | 'tiers' | 'sinistre' | 'date_accident' | 'montant_dommage'> & { missing_fields: string[] }
-  file: File
+  data: Sinitres & { missing_fields?: string[] } 
+  file: File | null
   onSuccess?: (data: any) => void
   onCancel?: () => void
 }
