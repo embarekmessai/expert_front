@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 const TOAST_LIMIT = 1
 
@@ -7,8 +7,15 @@ type Toast = {
   title?: React.ReactNode
   description?: React.ReactNode
   action?: React.ReactNode
+  variant?: 'default' | 'success' | 'error' | 'warning'
   open?: boolean
-  position?: "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
+  position?:
+    | 'top-left'
+    | 'top-center'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-center'
+    | 'bottom-right'
   onOpenChange?: (open: boolean) => void
 }
 
@@ -16,11 +23,14 @@ type State = {
   toasts: Toast[]
 }
 
-type ToastInput = Omit<Toast, "id">
+type ToastInput = Omit<Toast, 'id'>
 
 type Action =
   | { type: typeof actionTypes.ADD_TOAST; toast: Toast }
-  | { type: typeof actionTypes.UPDATE_TOAST; toast: Partial<Toast> & { id: string } }
+  | {
+      type: typeof actionTypes.UPDATE_TOAST
+      toast: Partial<Toast> & { id: string }
+    }
   | { type: typeof actionTypes.DISMISS_TOAST; toastId?: string }
   | { type: typeof actionTypes.REMOVE_TOAST; toastId?: string }
 
@@ -32,10 +42,10 @@ function genId() {
 }
 
 const actionTypes = {
-  ADD_TOAST: "ADD_TOAST",
-  UPDATE_TOAST: "UPDATE_TOAST",
-  DISMISS_TOAST: "DISMISS_TOAST",
-  REMOVE_TOAST: "REMOVE_TOAST",
+  ADD_TOAST: 'ADD_TOAST',
+  UPDATE_TOAST: 'UPDATE_TOAST',
+  DISMISS_TOAST: 'DISMISS_TOAST',
+  REMOVE_TOAST: 'REMOVE_TOAST',
 } as const
 
 const listeners: Array<(state: State) => void> = []
@@ -61,7 +71,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         toasts: state.toasts.map((t) =>
-          t.id === action.toast.id ? { ...t, ...action.toast } : t
+          t.id === action.toast.id ? { ...t, ...action.toast } : t,
         ),
       }
 
@@ -70,9 +80,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         toasts: state.toasts.map((t) =>
-          t.id === toastId || toastId === undefined
-            ? { ...t, open: false }
-            : t
+          t.id === toastId || toastId === undefined ? { ...t, open: false } : t,
         ),
       }
     }
@@ -100,7 +108,8 @@ function toast({ ...props }: ToastInput) {
       toast: { ...props, id },
     })
 
-  const dismiss = () => dispatch({ type: actionTypes.DISMISS_TOAST, toastId: id })
+  const dismiss = () =>
+    dispatch({ type: actionTypes.DISMISS_TOAST, toastId: id })
 
   dispatch({
     type: actionTypes.ADD_TOAST,
