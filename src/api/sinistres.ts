@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 const getSinistres = async (): Promise<{ results: Sinitres[] }> => {
   const response = await fetch(API_URL + '/sinistres', {
-    headers: {
+    headers: { 
       accept: 'application/json',
       Authorization: `Bearer ${process.env.API_AUTH_TOKEN}`,
     },
@@ -74,7 +74,7 @@ export const uploadPVs = async (files: File[]) => {
   return response.json()
 }
 export const downloadExcel = () => {
-  window.open(`${API_URL}/download`, '_blank')
+  window.open(`${API_URL}/download/excel`, '_blank')
 }
 export const uploadExcel = (file: File) => {
   const formData = new FormData()
