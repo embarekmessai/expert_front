@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Download } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -20,6 +21,7 @@ import SinistreStats from '@/components/SinistreStats'
 import PVUploadSection from '@/components/PVUploadSection'
 import PVsUploadZone from '@/components/PVsUploadZone'
 import { fetchSinistres } from '#/api/fetch-sinistres'
+import { downloadExcel } from '#/api/sinistres'
 import type { Sinitres } from '#/types/sinistres'
 
 export const Route = createFileRoute('/(app)/_app/dashboard')({
@@ -96,10 +98,20 @@ function RouteComponent() {
       {/* Recent sinistres */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base font-semibold">
-            Derniers sinistres
-          </CardTitle>
-          <CardDescription>Les 5 sinistres les plus récents</CardDescription>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <CardTitle className="text-base font-semibold">
+                Derniers sinistres
+              </CardTitle>
+              <CardDescription>
+                Les 5 sinistres les plus récents
+              </CardDescription>
+            </div>
+            <Button size="sm" onClick={downloadExcel}>
+              <Download className="mr-2 h-4 w-4" />
+              Télécharger Excel
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           {recent.length === 0 ? (
