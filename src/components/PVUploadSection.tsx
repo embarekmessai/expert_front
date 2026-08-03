@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import { FileText } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import UploadZone from '@/components/UploadZone'
 import PVPreview from '@/components/PVPreview'
 
 export default function PVUploadSection() {
@@ -67,7 +66,6 @@ export default function PVUploadSection() {
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <UploadZone onParsed={handleParsed} onError={handleError} />
 
       {parsedData && currentFile ? (
         <PVPreview
