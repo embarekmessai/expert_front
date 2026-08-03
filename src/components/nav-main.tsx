@@ -11,7 +11,6 @@ import type { NavItem } from '@/types';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { Dot } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { routeLastSegment, routeSecondSegment } from '#/lib/route';
 import { Link } from '@tanstack/react-router';
 
 
@@ -58,7 +57,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                             asChild
                                             className="h-9"
                                         >
-                                             <Link to="/" className="flex gap-2 items-center">
+                                             <Link to={item.href} className="flex gap-2 items-center">
                                                 {/* {item.icon &&
                                                 <DynamicIcon name="camera" size="16" />} */}
                                                 <span className="text-sm font-normal capitalize">{item.title}</span>

@@ -1,3 +1,4 @@
+import { useLocation } from '@tanstack/react-router';
 import { toUrl } from '@/lib/utils';
 
 export type IsCurrentUrlFn = (
@@ -25,13 +26,8 @@ export type UseCurrentUrlReturn = {
 };
 
 export function useCurrentUrl(): UseCurrentUrlReturn {
-    // const page = { url: window.location.href };
-    const currentUrlPath = new URL(
-        typeof window !== 'undefined' ? window.location.href : 'http://localhost',
-        typeof window !== 'undefined'
-            ? window.location.origin
-            : 'http://localhost',
-    ).pathname;
+    const location = useLocation();
+    const currentUrlPath = location.pathname;
 
     const isCurrentUrl: IsCurrentUrlFn = (
         urlToCheck: string,
