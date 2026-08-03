@@ -8,37 +8,29 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Download, RefreshCw, FileSpreadsheet, Hash, User, Car, Calendar,
-  DollarSign, TrendingUp, AlertCircle
-} from 'lucide-react'
+  DollarSign, TrendingUp, AlertCircle,
+  type LucideIcon } from 'lucide-react'
 import { getPVs, getStats, downloadExcel } from '@/api/sinistres'
+import type { Sinitres } from '#/types/sinistres'
 
-export default function PVTable() {
-  const [pvs, setPvs] = useState([])
-  const [stats, setStats] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
 
-  const fetchData = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const [pvsRes, statsRes] = await Promise.all([getPVs(), getStats()])
-      setPvs(pvsRes.data.pvs || [])
-      setStats(statsRes.data)
-    } catch (err) {
-      setError(err.response?.data?.detail || err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
+export default function PVTable({ sinistres, error }: { sinistres: Sinitres[], error: string | null }) {
+  const [stats, setStats] = useState<{
+    total_lines: number
+    total_hair_ttc: number
+    last_row: number
+  } | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  const [fetchSinistres, setFetchSinistres] = useState<Sinitres[]>([])
 
   useEffect(() => {
-    fetchData()
-    const interval = setInterval(fetchData, 5000)
-    return () => clearInterval(interval)
-  }, [])
+    setFetchSinistres(sinistres)
+  }, [sinistres])
 
-  const StatCard = ({ icon: Icon, label, value, suffix = '', accent = false }) => (
+  const StatCard = ({ icon: Icon, label, value, suffix = '', accent = false }:
+  { icon: LucideIcon, label: string, value: number | string, suffix?: string, accent?: boolean }) => (
+  ) => (
     <div className="rounded-xl border border-border/50 bg-card/50 p-4 backdrop-blur-sm">
       <div className="flex items-center gap-2 text-muted-foreground mb-2">
         <Icon className="h-4 w-4" />
@@ -64,10 +56,11 @@ export default function PVTable() {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
+            {/* <Button variant="outline" size="sm" onClick={() => console.log("Refresh clicked")}
+             disabled={loading}>
               <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
               Actualiser
-            </Button>
+            </Button> */}
             <Button size="sm" onClick={downloadExcel}>
               <Download className="mr-2 h-4 w-4" />
               Télécharger Excel
@@ -109,13 +102,13 @@ export default function PVTable() {
           </div>
         )}
 
-        {loading && pvs.length === 0 ? (
+        {loading && fetchSinistres.length === 0 ? (
           <div className="space-y-3">
             {[...Array(5)].map((_, i) => (
               <Skeleton key={i} className="h-12 w-full" />
             ))}
           </div>
-        ) : pvs.length === 0 ? (
+        ) : fetchSinistres.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted mb-4">
               <FileSpreadsheet className="h-6 w-6 text-muted-foreground" />
@@ -141,10 +134,10 @@ export default function PVTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {pvs.slice().reverse().slice(0, 20).map((pv) => (
-                    <TableRow key={pv.row} className="border-border/30">
+                  {fetchSinistres.slice().reverse().slice(0, 20).map((pv) => (
+                    <TableRow key={pv.id} className="border-border/30">
                       <TableCell className="font-mono text-xs text-muted-foreground">
-                        {pv.num}
+                        {pv.sinistre}
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
@@ -190,9 +183,9 @@ export default function PVTable() {
                 </TableBody>
               </Table>
             </div>
-            {pvs.length > 20 && (
+            {fetchSinistres.length > 20 && (
               <div className="border-t border-border/50 px-4 py-3 text-center text-xs text-muted-foreground">
-                Affichage des 20 derniers PVs sur {pvs.length} au total
+                Affichage des 20 derniers PVs sur {fetchSinistres.length} au total
               </div>
             )}
           </div>

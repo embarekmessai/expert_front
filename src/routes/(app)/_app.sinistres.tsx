@@ -1,20 +1,27 @@
 // src/routes/fetch-movies.tsx
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useCallback } from 'react'
-import { createServerFn } from '@tanstack/react-start'
-import getSinistres from '#/api/sinistres'
+
 import { FileText, Zap, Shield, Sparkles, BarChart3 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
-import UploadZone from '@/components/UploadZone.tsx'
 import PVPreview from '@/components/PVPreview.tsx'
 import PVTable from '@/components/PVTable.tsx'
 import type { Sinitres } from '#/types/sinistres'
+import PVsUploadZone from '#/components/PVsUploadZone'
+import { fetchSinistres } from '#/api/fetch-sinistres'
 
-const fetchSinistres = createServerFn().handler(getSinistres)
 
 const SinistresPage = () => {
+  const { sinistres, error } = Route.useLoaderData()
+
+  const recent = [...sinistres]
+    .sort(
+      (a, b) =>
+        new Date(b.date_accident).getTime() -
+        new Date(a.date_accident).getTime(),
+    )
   const [parsedData, setParsedData] = useState<
     (Sinitres & { missing_fields?: string[] }) | null
   >(null)
@@ -132,7 +139,8 @@ const SinistresPage = () => {
 
         {/* Upload + Preview */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <UploadZone onParsed={handleParsed} onError={handleError} />
+          {/* Bulk import */}
+          <PVsUploadZone />
 
           {parsedData ? (
             <PVPreview
@@ -167,7 +175,8 @@ const SinistresPage = () => {
         <Separator className="bg-border/50" />
 
         {/* Table */}
-        <PVTable />
+        <PVTable sinistres={recent} error={error} />
+
       </main>
 
       {/* Footer */}
@@ -185,16 +194,21 @@ const SinistresPage = () => {
 
 export const Route = createFileRoute('/(app)/_app/sinistres')({
   component: SinistresPage,
-  loader: async (): Promise<{
-    sinistres: Sinitres[]
-    error: string | null
-  }> => {
-    try {
-      const sinistresData = await fetchSinistres()
-      return { sinistres: sinistresData.results, error: null }
-    } catch (error) {
-      console.error('Error fetching sinistres:', error)
-      return { sinistres: [], error: 'Failed to load sinistres' }
-    }
+  staticData: {
+    breadcrumb: { title: 'Sinistres', href: '/sinistres' },
   },
+  loader: async (): Promise<{
+      sinistres: Sinitres[]
+      error: string | null
+    }> => {
+      try {
+        const data = (await fetchSinistres()) as
+          Sinitres[] | { results?: Sinitres[] }
+        const sinistres = Array.isArray(data) ? data : (data.results ?? [])
+        return { sinistres, error: null }
+      } catch (error) {
+        console.error('Error fetching sinistres:', error)
+        return { sinistres: [], error: 'Impossible de charger les sinistres' }
+      }
+    },
 })
