@@ -46,7 +46,7 @@ Environment: `.env.local` must define `DATABASE_URL` (SQLite file). Client code 
 
 - `src/routes/` — file-based routes. Route groups: `(web)` (public marketing/demo pages, layout `_web.tsx`) and `(app)` (authenticated app shell, layout `_app.tsx`, e.g. `_app.dashboard.tsx`, `sinistres.tsx`). Root layout in `__root.tsx`. `routeTree.gen.ts` is generated — never edit by hand.
 - `src/api/` — backend API client functions (e.g. `sinistres.ts`: fetch sinistres, parse/add PV files).
-- `src/components/` — shared components: `ui/` (shadcn), layout/shell (`AppShell.tsx`, `Header.tsx`, `Footer.tsx`, `app-sidebar.tsx`, nav-*), domain components (`PVTable.tsx`, `PVPreview.tsx`, `UploadZone.tsx`).
+- `src/components/` — shared components: `ui/` (shadcn), layout/shell (`AppShell.tsx`, `Header.tsx`, `Footer.tsx`, `app-sidebar.tsx`, nav-*), domain components (`PVTable.tsx`, `PVPreview.tsx`, `PVsUploadZone.tsx`).
 - `src/hooks/` — React hooks (`use-appearance`, `use-mobile`, `use-route`, `use-flash-toast`, …).
 - `src/lib/` — utilities (`utils.ts` with `cn`, `route.ts`, demo store).
 - `src/types/` — shared TypeScript types (`sinistres.ts`, `auth.ts`, `navigation.ts`, …).
